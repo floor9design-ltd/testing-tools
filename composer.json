@@ -1,0 +1,37 @@
+{
+    "name": "floor9design/testing-tools",
+    "type": "library",
+    "description": "Classes to help with unit testing",
+    "keywords": [
+        "floor9design",
+        "testing"
+    ],
+    "homepage": "https://github.com/floor9design-ltd/testing-tools",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rick Morice",
+            "email": "rick@floor9design.com",
+            "homepage": "http://floor9design.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "ext-json": "*",
+        "php" : ">=7.3",
+        "floor9design/test-data-generator" : "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=8.0",
+        "mockery/mockery": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Floor9design\\TestingTools\\": "src",
+            "Floor9design\\TestingTools\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

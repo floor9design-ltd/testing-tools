@@ -47,25 +47,49 @@ class AccessorTesterTest extends TestCase
     use AccessorTesterTrait;
 
     /**
+     * Tests AccessorTesterTrait::accessorTestArrays()
+     */
+    public function testAccessorTestArrays(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $arrays = [
+            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+        ];
+
+        $this->accessorTestArrays($arrays, $test_pass);
+
+        // basic with limits
+        $arrays = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['length' => 5, 'array_length' => 10]
+            ]
+        ];
+
+        $this->accessorTestArrays($arrays, $test_pass);
+
+        // reformed
+        $arrays = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 10, 'max' => 5]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestInts($arrays, $test_pass);
+    }
+
+    /**
      * Tests AccessorTesterTrait::accessorTestInts()
      */
     public function testAccessorTestInts(): void
     {
-        $test_pass = new class {
-
-            var $foo;
-
-            public function getFoo()
-            {
-                return $this->foo;
-            }
-
-            public function setFoo(int $foo)
-            {
-                $this->foo = $foo;
-            }
-
-        };
+        $test_pass = $this->createAnonymousTestObject();
 
         // basic
         $ints = [
@@ -96,6 +120,28 @@ class AccessorTesterTest extends TestCase
 
         $this->expectException(TestingToolsException::class);
         $this->accessorTestInts($ints, $test_pass);
+    }
+
+    /**
+     * @return object anonymous object
+     */
+    private function createAnonymousTestObject(): object
+    {
+        return new class {
+
+            var $foo;
+
+            public function getFoo()
+            {
+                return $this->foo;
+            }
+
+            public function setFoo($foo)
+            {
+                $this->foo = $foo;
+            }
+
+        };
     }
 }
 

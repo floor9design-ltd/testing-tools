@@ -54,6 +54,43 @@ trait AccessorTesterTrait
     /**
      * Tests an array of accessors
      *
+     * @param array $arrays
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestArrays(array $arrays, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($arrays as $property => $config) {
+            if (
+                $config['config']['length'] ?? false &&
+                is_int($config['config']['length'])
+            ) {
+                $length = $config['config']['length'];
+            } else {
+                $length = null;
+            }
+
+            if (
+                $config['config']['array_length'] ?? false &&
+                is_int($config['config']['array_length'])
+            ) {
+                $array_length = $config['config']['array_length'];
+            } else {
+                $array_length = null;
+            }
+
+            $test_array = $this->generator->randomStringArray($length, $array_length);
+
+            $this->accessorTests($config, $property, $object, $test_array);
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
      * @param array $ints
      * @param object $object
      * @return void
@@ -65,7 +102,6 @@ trait AccessorTesterTrait
 
         foreach ($ints as $property => $config) {
             try {
-
                 if (
                     $config['config']['min'] ?? false &&
                     is_int($config['config']['min'])
@@ -85,25 +121,33 @@ trait AccessorTesterTrait
                 }
 
                 $test_int = $this->generator->randomInteger($min, $max);
-
+                $this->accessorTests($config, $property, $object, $test_int);
             } catch (GeneratorException $e) {
                 throw new TestingToolsException('The Generator encountered and exception: ' . $e->getMessage());
             }
-
-            $getter = $config['getter'];
-            $setter = $config['setter'];
-
-            $object->$setter($test_int);
-
-            $this->assertEquals($test_int, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
-
-            $getter = $config['getter'];
-            $setter = $config['setter'];
-
-            $object->$setter($test_int);
-
-            $this->assertEquals($test_int, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
         }
     }
 
+    /**
+     * @param array $config
+     * @param string $property
+     * @param object $object
+     * @param $test_value
+     */
+    private function accessorTests(array $config, string $property, object $object, $test_value)
+    {
+        $getter = $config['getter'];
+        $setter = $config['setter'];
+
+        $object->$setter($test_value);
+
+        $this->assertEquals($test_value, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
+
+        $getter = $config['getter'];
+        $setter = $config['setter'];
+
+        $object->$setter($test_value);
+
+        $this->assertEquals($test_value, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
+    }
 }

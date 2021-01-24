@@ -91,6 +91,46 @@ trait AccessorTesterTrait
     /**
      * Tests an array of accessors
      *
+     * @param array $floats
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestFloats(array $floats, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($floats as $property => $config) {
+            try {
+                if (
+                    $config['config']['min'] ?? false &&
+                    is_float($config['config']['min'])
+                ) {
+                    $min = $config['config']['min'];
+                } else {
+                    $min = null;
+                }
+
+                if (
+                    $config['config']['max'] ?? false &&
+                    is_float($config['config']['max'])
+                ) {
+                    $max = $config['config']['max'];
+                } else {
+                    $max = null;
+                }
+
+                $test_float = $this->generator->randomFloat($min, $max);
+                $this->accessorTests($config, $property, $object, $test_float);
+            } catch (GeneratorException $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
      * @param array $ints
      * @param object $object
      * @return void
@@ -123,7 +163,7 @@ trait AccessorTesterTrait
                 $test_int = $this->generator->randomInteger($min, $max);
                 $this->accessorTests($config, $property, $object, $test_int);
             } catch (GeneratorException $e) {
-                throw new TestingToolsException('The Generator encountered and exception: ' . $e->getMessage());
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
         }
     }

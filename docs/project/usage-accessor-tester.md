@@ -10,7 +10,7 @@ Firstly, `use` the class to include its methods:
 use Floor9design\TestingTools\Traits\AccessorTesterTrait;
 use PHPUnit\Framework\TestCase;
 
-class AccessorTesterTest extends TestCase
+class FooTest extends TestCase
 {
     use AccessorTesterTrait;
 }
@@ -52,6 +52,37 @@ $this->accessorTestInts($arrays, $object);
 
 ```
 
+### accessorTestFloats
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for floats
+$floats = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+        // further config (optional) - maps directly to Floor9design\TestDataGenerator\Generator::randomFloat()
+        'config' => [
+             // min float value
+            'min' => 5.2, 
+            // max int value
+            'max' => 10.4
+        ]
+    ]
+];
+
+$this->accessorTestFloats($floats, $object);
+
+```
+
 ### accessorTestInts
 
 ```php
@@ -72,7 +103,7 @@ $ints = [
         // further config (optional) - maps directly to Floor9design\TestDataGenerator\Generator::randomInt()
         'config' => [
              // min int value
-            'length' => 5, 
+            'min' => 5, 
             // max int value
             'max' => 10
         ]

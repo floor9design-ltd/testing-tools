@@ -85,6 +85,44 @@ class AccessorTesterTest extends TestCase
     }
 
     /**
+     * Tests AccessorTesterTrait::accessorTestFloats()
+     */
+    public function testAccessorTestFloats(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $floats = [
+            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+        ];
+
+        $this->accessorTestFloats($floats, $test_pass);
+
+        // basic with limits
+        $floats = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 5, 'max' => 10]
+            ]
+        ];
+
+        $this->accessorTestFloats($floats, $test_pass);
+
+        // reformed
+        $floats = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 10, 'max' => 5]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestFloats($floats, $test_pass);
+    }
+
+    /**
      * Tests AccessorTesterTrait::accessorTestInts()
      */
     public function testAccessorTestInts(): void

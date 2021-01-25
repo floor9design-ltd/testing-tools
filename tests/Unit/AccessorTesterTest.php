@@ -71,7 +71,7 @@ class AccessorTesterTest extends TestCase
 
         $this->accessorTestArrays($arrays, $test_pass);
 
-        // reformed
+        // exception
         $arrays = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -81,7 +81,33 @@ class AccessorTesterTest extends TestCase
         ];
 
         $this->expectException(TestingToolsException::class);
-        $this->accessorTestInts($arrays, $test_pass);
+        $this->accessorTestIntegers($arrays, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestBooleans()
+     */
+    public function testAccessorTestBooleans(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $booleans = [
+            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+        ];
+
+        $this->accessorTestBooleans($booleans, $test_pass);
+
+        // basic with limits
+        $booleans = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 5, 'max' => 10]
+            ]
+        ];
+
+        $this->accessorTestFloats($booleans, $test_pass);
     }
 
     /**
@@ -109,7 +135,7 @@ class AccessorTesterTest extends TestCase
 
         $this->accessorTestFloats($floats, $test_pass);
 
-        // reformed
+        // exception
         $floats = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -123,21 +149,21 @@ class AccessorTesterTest extends TestCase
     }
 
     /**
-     * Tests AccessorTesterTrait::accessorTestInts()
+     * Tests AccessorTesterTrait::accessorTestIntegers()
      */
-    public function testAccessorTestInts(): void
+    public function testAccessorTestIntegers(): void
     {
         $test_pass = $this->createAnonymousTestObject();
 
         // basic
-        $ints = [
+        $integers = [
             'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
         ];
 
-        $this->accessorTestInts($ints, $test_pass);
+        $this->accessorTestIntegers($integers, $test_pass);
 
         // basic with limits
-        $ints = [
+        $integers = [
             'foo' => [
                 'getter' => 'getFoo',
                 'setter' => 'setFoo',
@@ -145,10 +171,10 @@ class AccessorTesterTest extends TestCase
             ]
         ];
 
-        $this->accessorTestInts($ints, $test_pass);
+        $this->accessorTestIntegers($integers, $test_pass);
 
-        // reformed
-        $ints = [
+        // exception
+        $integers = [
             'foo' => [
                 'getter' => 'getFoo',
                 'setter' => 'setFoo',
@@ -157,8 +183,180 @@ class AccessorTesterTest extends TestCase
         ];
 
         $this->expectException(TestingToolsException::class);
-        $this->accessorTestInts($ints, $test_pass);
+        $this->accessorTestIntegers($integers, $test_pass);
     }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsons(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $jsons = [
+            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+        ];
+
+        $this->accessorTestJsons($jsons, $test_pass);
+
+        // basic with limits
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => [
+                    'number_of_arrays' => 5,
+                    'number_of_booleans' => 10,
+                    'number_of_floats' => 2,
+                    'number_of_integers' => 4,
+                    'number_of_strings' => 3
+                ]
+            ]
+        ];
+
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsonsArrayException(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exceptions
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['number_of_arrays' => -1]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsonsBooleanException(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exceptions
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['number_of_booleans' => -1]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsonsBooleanFloat(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exceptions
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['number_of_floats' => -1]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsonsBooleanInteger(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exceptions
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['number_of_integers' => -1]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestJsons()
+     */
+    public function testAccessorTestJsonsBooleanString(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exceptions
+        $jsons = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['number_of_strings' => -1]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestJsons($jsons, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestStrings()
+     */
+    public function testAccessorTestStrings(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $strings = [
+            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+        ];
+
+        $this->accessorTestStrings($strings, $test_pass);
+
+        // basic with limits
+        $strings = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['length' => 10]
+            ]
+        ];
+
+        $this->accessorTestStrings($strings, $test_pass);
+
+        // exception
+        $strings = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['length' => -5]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestStrings($strings, $test_pass);
+    }
+
+    // Internal functions
 
     /**
      * @return object anonymous object

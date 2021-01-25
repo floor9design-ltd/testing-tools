@@ -30,7 +30,7 @@ use Floor9design\TestingTools\Traits\AccessorTesterTrait;
 // instantiate whatever object you wish to test:
 $object = new stdClass();
 
-// set up the config array for ints
+// set up the config array for arrays
 $arrays = [
     // the property
     'foo' => [
@@ -48,7 +48,31 @@ $arrays = [
     ]
 ];
 
-$this->accessorTestInts($arrays, $object);
+$this->accessorTestArrays($arrays, $object);
+
+```
+
+### accessorTestBooleans
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for floats
+$booleans = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+    ]
+];
+
+$this->accessorTestBooleans($booleans, $object);
 
 ```
 
@@ -83,7 +107,7 @@ $this->accessorTestFloats($floats, $object);
 
 ```
 
-### accessorTestInts
+### accessorTestIntegers
 
 ```php
 
@@ -92,8 +116,8 @@ use Floor9design\TestingTools\Traits\AccessorTesterTrait;
 // instantiate whatever object you wish to test:
 $object = new stdClass();
 
-// set up the config array for ints
-$ints = [
+// set up the config array for integers
+$integers = [
     // the property
     'foo' => [
         // name of the getter
@@ -110,6 +134,99 @@ $ints = [
     ]
 ];
 
+$this->accessorTestIntegers($integers, $object);
+
+```
+
+### accessorTestJsons
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for json objects
+$jsons = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+        // further config (optional) - maps directly to Floor9design\TestDataGenerator\Generator::randomJson()
+        'config' => [
+             // number of arrays included in the json
+            'number_of_arrays' => 5, 
+            // number of arrays included in the json
+            'number_of_booleans' => 10,
+            // number of booleans included in the json
+            'number_of_floats' => 10,
+            // number of floats included in the json
+            'number_of_integers' => 10,
+            // number of integers included in the json
+            'number_of_strings' => 10,
+        ]
+    ]
+];
+
+$this->accessorTestJsons($jsons, $object);
+
+```
+
+### accessorTestStrings
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for strings
+$integers = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+        // further config (optional) - maps directly to Floor9design\TestDataGenerator\Generator::randomString()
+        'config' => [
+             // string length
+            'length' => 10
+        ]
+    ]
+];
+
+$this->accessorTestStrings($integers, $object);
+
+```
+
+## Easy Use Example:
+
+The following example shows the ease with which multiple accessors can be checked in a few lines of code.
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+$arrays = [
+    'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo'],
+    'bar' => ['getter' => 'getBar', 'setter' => 'setBar']
+];
+$this->accessorTestArrays($arrays, $object);
+
+$ints = [
+    'fizz' => ['getter' => 'getFizz', 'setter' => 'setFizz'],
+    'bang' => ['getter' => 'getBang', 'setter' => 'setBang']
+];
 $this->accessorTestInts($ints, $object);
+
+// ..etc
 
 ```

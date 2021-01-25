@@ -20,6 +20,7 @@
 
 namespace Floor9design\TestingTools\Traits;
 
+use Exception;
 use Floor9design\TestDataGenerator\Generator;
 use Floor9design\TestDataGenerator\GeneratorException;
 use Floor9design\TestingTools\Exceptions\TestingToolsException;
@@ -83,8 +84,25 @@ trait AccessorTesterTrait
             }
 
             $test_array = $this->generator->randomStringArray($length, $array_length);
-
             $this->accessorTests($config, $property, $object, $test_array);
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $floats
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestBooleans(array $booleans, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($booleans as $property => $config) {
+            $test_boolean = $this->generator->randomBoolean();
+            $this->accessorTests($config, $property, $object, $test_boolean);
         }
     }
 
@@ -131,16 +149,16 @@ trait AccessorTesterTrait
     /**
      * Tests an array of accessors
      *
-     * @param array $ints
+     * @param array $integers
      * @param object $object
      * @return void
      * @throws TestingToolsException
      */
-    public function accessorTestInts(array $ints, object $object): void
+    public function accessorTestIntegers(array $integers, object $object): void
     {
         $this->generator = new Generator();
 
-        foreach ($ints as $property => $config) {
+        foreach ($integers as $property => $config) {
             try {
                 if (
                     $config['config']['min'] ?? false &&
@@ -163,6 +181,135 @@ trait AccessorTesterTrait
                 $test_int = $this->generator->randomInteger($min, $max);
                 $this->accessorTests($config, $property, $object, $test_int);
             } catch (GeneratorException $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $jsons
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestJsons(array $jsons, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($jsons as $property => $config) {
+            try {
+                if (
+                    $config['config']['number_of_arrays'] ?? false &&
+                    is_int($config['config']['number_of_arrays'])
+                ) {
+                    if($config['config']['number_of_arrays'] < 0) {
+                        throw new TestingToolsException("The number of arrays specified cannot be less than 0");
+                    }
+
+                    $number_of_arrays = $config['config']['number_of_arrays'];
+                } else {
+                    $number_of_arrays = null;
+                }
+
+                if (
+                    $config['config']['number_of_booleans'] ?? false &&
+                    is_int($config['config']['number_of_booleans'])
+                ) {
+                    if($config['config']['number_of_booleans'] < 0) {
+                        throw new TestingToolsException("The number of booleans specified cannot be less than 0");
+                    }
+
+                    $number_of_booleans = $config['config']['number_of_booleans'];
+                } else {
+                    $number_of_booleans = null;
+                }
+
+                if (
+                    $config['config']['number_of_floats'] ?? false &&
+                    is_int($config['config']['number_of_floats'])
+                ) {
+                    if($config['config']['number_of_floats'] < 0) {
+                        throw new TestingToolsException("The number of floats specified cannot be less than 0");
+                    }
+
+                    $number_of_floats = $config['config']['number_of_floats'];
+                } else {
+                    $number_of_floats = null;
+                }
+
+                if (
+                    $config['config']['number_of_integers'] ?? false &&
+                    is_int($config['config']['number_of_integers'])
+                ) {
+                    if($config['config']['number_of_integers'] < 0) {
+                        throw new TestingToolsException("The number of integers specified cannot be less than 0");
+                    }
+
+                    $number_of_integers = $config['config']['number_of_integers'];
+                } else {
+                    $number_of_integers = null;
+                }
+
+                if (
+                    $config['config']['number_of_strings'] ?? false &&
+                    is_int($config['config']['number_of_strings'])
+                ) {
+                    if($config['config']['number_of_strings'] < 0) {
+                        throw new TestingToolsException("The number of strings specified cannot be less than 0");
+                    }
+
+                    $number_of_strings = $config['config']['number_of_strings'];
+                } else {
+                    $number_of_strings = null;
+                }
+
+                $test_json = $this->generator->randomJson(
+                    $number_of_arrays,
+                    $number_of_booleans,
+                    $number_of_floats,
+                    $number_of_integers,
+                    $number_of_strings
+                );
+
+                $this->accessorTests($config, $property, $object, $test_json);
+            } catch (Exception $e) {
+                throw new TestingToolsException($e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $strings
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestStrings(array $strings, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($strings as $property => $config) {
+            try {
+                if (
+                    $config['config']['length'] ?? false &&
+                    is_int($config['config']['length'])
+                ) {
+                    if($config['config']['length'] < 0) {
+                        throw new TestingToolsException("The length specified cannot be less than 0");
+                    }
+
+                    $length = $config['config']['length'];
+                } else {
+                    $length = null;
+                }
+
+                $test_float = $this->generator->randomString($length);
+                $this->accessorTests($config, $property, $object, $test_float);
+            } catch (Exception $e) {
                 throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
         }

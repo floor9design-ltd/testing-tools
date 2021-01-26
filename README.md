@@ -15,15 +15,12 @@
 
 This offers a set of easy testing tools useful for generating unit testing in PHPUnit.
 
-This is currently under development.
-
 ## Features
 
-To be completed
+* Easy installation
+* Simple and efficient classes
 
 ## Install
-
-To be updated: 
 
 Via Composer
 
@@ -33,11 +30,14 @@ composer require floor9design/testing-tools
 
 ## Usage
 
-To be completed
+* [usage](docs/project/usage.md)
 
 ## Setup
 
-To be completed
+These are a simple classes, so minimal setup is required. In a composer/PSR compliant system, this should be 
+automatically included. If your system works another way, this can be manually included.
+
+Note that they are namespaced, so should not clash with your other classes/methods.
 
 ## Testing
 

@@ -55,12 +55,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $arrays = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestArrays($arrays, $test_pass);
 
-        // basic with limits
+        // basic with config
         $arrays = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -93,12 +93,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $booleans = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestBooleans($booleans, $test_pass);
 
-        // basic with limits
+        // basic with config
         $booleans = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -119,12 +119,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $floats = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestFloats($floats, $test_pass);
 
-        // basic with limits
+        // basic with config
         $floats = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -157,12 +157,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $integers = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestIntegers($integers, $test_pass);
 
-        // basic with limits
+        // basic with config
         $integers = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -195,12 +195,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $jsons = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestJsons($jsons, $test_pass);
 
-        // basic with limits
+        // basic with config
         $jsons = [
             'foo' => [
                 'getter' => 'getFoo',
@@ -327,12 +327,12 @@ class AccessorTesterTest extends TestCase
 
         // basic
         $strings = [
-            'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo']
+            'foo' => []
         ];
 
         $this->accessorTestStrings($strings, $test_pass);
 
-        // basic with limits
+        // basic with config
         $strings = [
             'foo' => [
                 'getter' => 'getFoo',

@@ -17,6 +17,34 @@ class FooTest extends TestCase
 ```
 
 From here the various methods can be called. They require an array with the accessor details/config and the object.
+The class will attempt to guess the accessors, and set config automatically.
+
+The following is a perfectly valid config array (and is the intended general use case):
+
+```php
+$config = [
+    'foo' => [],
+    'bar' => [],
+    // ...
+];
+```
+
+These arrays follow the pattern:
+
+```php
+$config = [
+    // the name of the property being checked
+    'foo' => [
+        // name of the getter (optional)
+        'getter' => 'getFoo',
+        // name of the setter (optional)
+        'setter' => 'setFoo',
+        // further config (optional, and dependant on the type of accessor/method required)
+        'config' => []
+    ]
+];
+```
+
 The details of each method are listed below:
 
 ## Methods
@@ -215,16 +243,12 @@ use Floor9design\TestingTools\Traits\AccessorTesterTrait;
 // instantiate whatever object you wish to test:
 $object = new stdClass();
 
-$arrays = [
-    'foo' => ['getter' => 'getFoo', 'setter' => 'setFoo'],
-    'bar' => ['getter' => 'getBar', 'setter' => 'setBar']
-];
+// Arrays
+$arrays = ['foo' => [], 'bar' => []];
 $this->accessorTestArrays($arrays, $object);
 
-$ints = [
-    'fizz' => ['getter' => 'getFizz', 'setter' => 'setFizz'],
-    'bang' => ['getter' => 'getBang', 'setter' => 'setBang']
-];
+// Ints, including an irregular test
+$ints = ['fizz' => [],    'bang' => ['getter' => 'getMegaBang', 'setter' => 'setUltraBang']];
 $this->accessorTestInts($ints, $object);
 
 // ..etc

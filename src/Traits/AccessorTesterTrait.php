@@ -84,7 +84,7 @@ trait AccessorTesterTrait
             }
 
             $test_array = $this->generator->randomStringArray($length, $array_length);
-            $this->accessorTests($config, $property, $object, $test_array);
+            $this->accessorTests($property, $config, $object, $test_array);
         }
     }
 
@@ -102,7 +102,7 @@ trait AccessorTesterTrait
 
         foreach ($booleans as $property => $config) {
             $test_boolean = $this->generator->randomBoolean();
-            $this->accessorTests($config, $property, $object, $test_boolean);
+            $this->accessorTests($property, $config, $object, $test_boolean);
         }
     }
 
@@ -139,7 +139,7 @@ trait AccessorTesterTrait
                 }
 
                 $test_float = $this->generator->randomFloat($min, $max);
-                $this->accessorTests($config, $property, $object, $test_float);
+                $this->accessorTests($property, $config, $object, $test_float);
             } catch (GeneratorException $e) {
                 throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
@@ -179,7 +179,7 @@ trait AccessorTesterTrait
                 }
 
                 $test_int = $this->generator->randomInteger($min, $max);
-                $this->accessorTests($config, $property, $object, $test_int);
+                $this->accessorTests($property, $config, $object, $test_int);
             } catch (GeneratorException $e) {
                 throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
@@ -273,7 +273,7 @@ trait AccessorTesterTrait
                     $number_of_strings
                 );
 
-                $this->accessorTests($config, $property, $object, $test_json);
+                $this->accessorTests($property, $config, $object, $test_json);
             } catch (Exception $e) {
                 throw new TestingToolsException($e->getMessage());
             }
@@ -308,33 +308,72 @@ trait AccessorTesterTrait
                 }
 
                 $test_float = $this->generator->randomString($length);
-                $this->accessorTests($config, $property, $object, $test_float);
+                $this->accessorTests($property, $config, $object, $test_float);
             } catch (Exception $e) {
                 throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
         }
     }
 
+    // private functions
+
     /**
-     * @param array $config
      * @param string $property
+     * @param array $config
      * @param object $object
      * @param $test_value
      */
-    private function accessorTests(array $config, string $property, object $object, $test_value)
+    private function accessorTests(string $property, array $config, object $object, $test_value)
     {
-        $getter = $config['getter'];
-        $setter = $config['setter'];
-
-        $object->$setter($test_value);
-
-        $this->assertEquals($test_value, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
-
-        $getter = $config['getter'];
-        $setter = $config['setter'];
+        $getter = $config['getter'] ?? $this->guessGetter($property);
+        $setter = $config['setter'] ?? $this->guessSetter($property);
 
         $object->$setter($test_value);
 
         $this->assertEquals($test_value, $object->$getter(), 'There was a problem with the accessor for: ' . $property);
     }
+
+    /**
+     * Attempts to convert a string to a get method
+     *
+     * @param string $name
+     * @return string
+     */
+    private function guessGetter(string $name): string
+    {
+        return 'get' . $this->methodCaseConverter($name);
+    }
+
+    /**
+     * Attempts to convert a string to a set method
+     *
+     * @param string $name
+     * @return string
+     */
+    private function guessSetter(string $name): string
+    {
+        return 'set' . $this->methodCaseConverter($name);
+    }
+
+    /**
+     * Converts to an unspecified method in PRS-12 compliant naming standards eg:
+     * e.g: foo => Foo, foo_bar => FooBar
+     *
+     * @param string $name
+     * @return string
+     */
+    private function methodCaseConverter(string $name): string
+    {
+        $string = str_replace(
+        // remove spaces
+            ' ', '',
+            ucwords(
+            // convert into a "string with spaces"
+                str_replace('_', ' ', $name)
+            )
+        );
+
+        return $string;
+    }
+
 }

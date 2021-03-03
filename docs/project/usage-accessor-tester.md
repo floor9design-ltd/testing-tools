@@ -104,6 +104,58 @@ $this->accessorTestBooleans($booleans, $object);
 
 ```
 
+### accessorTestDates
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for floats
+$dates = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+        // change the output of the date
+        'config' => ['format' => 'Y']
+    ]
+];
+
+$this->accessorTestBooleans($dates, $object);
+
+```
+
+### accessorTestDateTimes
+
+```php
+
+use Floor9design\TestingTools\Traits\AccessorTesterTrait;
+
+// instantiate whatever object you wish to test:
+$object = new stdClass();
+
+// set up the config array for floats
+$datetimes = [
+    // the property
+    'foo' => [
+        // name of the getter
+        'getter' => 'getFoo',
+        // name of the setter
+        'setter' => 'setFoo',
+        // change the output of the date
+        'config' => ['format' => 'Y']
+    ]
+];
+
+$this->accessorTestBooleans($datetimes, $object);
+
+```
+
 ### accessorTestFloats
 
 ```php

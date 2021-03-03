@@ -98,16 +98,6 @@ class AccessorTesterTest extends TestCase
 
         $this->accessorTestBooleans($booleans, $test_pass);
 
-        // basic with config
-        $booleans = [
-            'foo' => [
-                'getter' => 'getFoo',
-                'setter' => 'setFoo',
-                'config' => ['min' => 5, 'max' => 10]
-            ]
-        ];
-
-        $this->accessorTestBooleans($booleans, $test_pass);
     }
 
     /**

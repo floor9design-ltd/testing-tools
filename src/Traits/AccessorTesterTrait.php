@@ -109,6 +109,42 @@ trait AccessorTesterTrait
     /**
      * Tests an array of accessors
      *
+     * @param array $dates
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestDates(array $dates, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($dates as $property => $config) {
+            $test_date = $this->generator->randomMySqlDate();
+            $this->accessorTests($property, $config, $object, $test_date);
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $datetimes
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestDateTimes(array $datetimes, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($datetimes as $property => $config) {
+            $test_date_time = $this->generator->randomMySqlDate();
+            $this->accessorTests($property, $config, $object, $test_date_time);
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
      * @param array $floats
      * @param object $object
      * @return void

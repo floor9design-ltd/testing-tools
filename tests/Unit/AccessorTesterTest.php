@@ -107,7 +107,59 @@ class AccessorTesterTest extends TestCase
             ]
         ];
 
-        $this->accessorTestFloats($booleans, $test_pass);
+        $this->accessorTestBooleans($booleans, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestDates()
+     */
+    public function testAccessorTestDates(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $dates = [
+            'foo' => []
+        ];
+
+        $this->accessorTestDates($dates, $test_pass);
+
+        // basic with config
+        $dates = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['format' => 'Y']
+            ]
+        ];
+
+        $this->accessorTestDates($dates, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestDateTimes()
+     */
+    public function testAccessorTestDateTimes(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $dates = [
+            'foo' => []
+        ];
+
+        $this->accessorTestDateTimes($dates, $test_pass);
+
+        // basic with config
+        $dates = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['format' => 'Y']
+            ]
+        ];
+
+        $this->accessorTestDateTimes($dates, $test_pass);
     }
 
     /**

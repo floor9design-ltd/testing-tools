@@ -43,8 +43,10 @@ use PHPUnit\Framework\TestCase;
  */
 class AccessorTesterTest extends TestCase
 {
-    // As this is a test of a testing class, we can simply test is with pre-defined objects in states
+    // As this is a test of a testing class, we can simply test it with pre-defined objects in states
     use AccessorTesterTrait;
+
+    // Base functions
 
     /**
      * Tests AccessorTesterTrait::accessorTestArrays()
@@ -101,58 +103,6 @@ class AccessorTesterTest extends TestCase
     }
 
     /**
-     * Tests AccessorTesterTrait::accessorTestDates()
-     */
-    public function testAccessorTestDates(): void
-    {
-        $test_pass = $this->createAnonymousTestObject();
-
-        // basic
-        $dates = [
-            'foo' => []
-        ];
-
-        $this->accessorTestDates($dates, $test_pass);
-
-        // basic with config
-        $dates = [
-            'foo' => [
-                'getter' => 'getFoo',
-                'setter' => 'setFoo',
-                'config' => ['format' => 'Y']
-            ]
-        ];
-
-        $this->accessorTestDates($dates, $test_pass);
-    }
-
-    /**
-     * Tests AccessorTesterTrait::accessorTestDateTimes()
-     */
-    public function testAccessorTestDateTimes(): void
-    {
-        $test_pass = $this->createAnonymousTestObject();
-
-        // basic
-        $dates = [
-            'foo' => []
-        ];
-
-        $this->accessorTestDateTimes($dates, $test_pass);
-
-        // basic with config
-        $dates = [
-            'foo' => [
-                'getter' => 'getFoo',
-                'setter' => 'setFoo',
-                'config' => ['format' => 'Y']
-            ]
-        ];
-
-        $this->accessorTestDateTimes($dates, $test_pass);
-    }
-
-    /**
      * Tests AccessorTesterTrait::accessorTestFloats()
      */
     public function testAccessorTestFloats(): void
@@ -172,6 +122,17 @@ class AccessorTesterTest extends TestCase
                 'getter' => 'getFoo',
                 'setter' => 'setFoo',
                 'config' => ['min' => 5, 'max' => 10]
+            ]
+        ];
+
+        $this->accessorTestFloats($floats, $test_pass);
+
+        // basic with config using floats
+        $floats = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 5.5, 'max' => 10.3]
             ]
         ];
 
@@ -226,6 +187,167 @@ class AccessorTesterTest extends TestCase
 
         $this->expectException(TestingToolsException::class);
         $this->accessorTestIntegers($integers, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestStrings()
+     */
+    public function testAccessorTestStrings(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $strings = [
+            'foo' => []
+        ];
+
+        $this->accessorTestStrings($strings, $test_pass);
+
+        // basic with config
+        $strings = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['length' => 10]
+            ]
+        ];
+
+        $this->accessorTestStrings($strings, $test_pass);
+
+        // exception
+        $strings = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['length' => -5]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestStrings($strings, $test_pass);
+    }
+
+    // Special cases:
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestCurrencies()
+     */
+    public function testAccessorTestCurrencies(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $currencies = [
+            'foo' => []
+        ];
+
+        $this->accessorTestCurrencies($currencies, $test_pass);
+
+        // basic with config
+        $currencies = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 5, 'max' => 10, 'decimal_places' => 1]
+            ]
+        ];
+
+        $this->accessorTestCurrencies($currencies, $test_pass);
+
+        // basic with config using currencies
+        $currencies = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 5.5, 'max' => 10.3, 'decimal_places' => 1]
+            ]
+        ];
+
+        $this->accessorTestCurrencies($currencies, $test_pass);
+
+        // exception
+        $currencies = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 10, 'max' => 5, 'decimal_places' => 3]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestCurrencies($currencies, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestCurrencies()
+     */
+    public function testAccessorTestCurrenciesException(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // exception
+        $currencies = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['min' => 10, 'max' => 5, 'decimal_places' => -3]
+            ]
+        ];
+
+        $this->expectException(TestingToolsException::class);
+        $this->accessorTestCurrencies($currencies, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestDates()
+     */
+    public function testAccessorTestDates(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $dates = [
+            'foo' => []
+        ];
+
+        $this->accessorTestDates($dates, $test_pass);
+
+        // basic with config
+        $dates = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['format' => 'Y']
+            ]
+        ];
+
+        $this->accessorTestDates($dates, $test_pass);
+    }
+
+    /**
+     * Tests AccessorTesterTrait::accessorTestDateTimes()
+     */
+    public function testAccessorTestDateTimes(): void
+    {
+        $test_pass = $this->createAnonymousTestObject();
+
+        // basic
+        $dates = [
+            'foo' => []
+        ];
+
+        $this->accessorTestDateTimes($dates, $test_pass);
+
+        // basic with config
+        $dates = [
+            'foo' => [
+                'getter' => 'getFoo',
+                'setter' => 'setFoo',
+                'config' => ['format' => 'Y']
+            ]
+        ];
+
+        $this->accessorTestDateTimes($dates, $test_pass);
     }
 
     /**
@@ -358,44 +480,6 @@ class AccessorTesterTest extends TestCase
 
         $this->expectException(TestingToolsException::class);
         $this->accessorTestJsons($jsons, $test_pass);
-    }
-
-    /**
-     * Tests AccessorTesterTrait::accessorTestStrings()
-     */
-    public function testAccessorTestStrings(): void
-    {
-        $test_pass = $this->createAnonymousTestObject();
-
-        // basic
-        $strings = [
-            'foo' => []
-        ];
-
-        $this->accessorTestStrings($strings, $test_pass);
-
-        // basic with config
-        $strings = [
-            'foo' => [
-                'getter' => 'getFoo',
-                'setter' => 'setFoo',
-                'config' => ['length' => 10]
-            ]
-        ];
-
-        $this->accessorTestStrings($strings, $test_pass);
-
-        // exception
-        $strings = [
-            'foo' => [
-                'getter' => 'getFoo',
-                'setter' => 'setFoo',
-                'config' => ['length' => -5]
-            ]
-        ];
-
-        $this->expectException(TestingToolsException::class);
-        $this->accessorTestStrings($strings, $test_pass);
     }
 
     // Internal functions

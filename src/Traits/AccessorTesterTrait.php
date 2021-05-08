@@ -66,7 +66,7 @@ trait AccessorTesterTrait
 
         foreach ($arrays as $property => $config) {
             if (
-                $config['config']['length'] ?? false &&
+                ($config['config']['length'] ?? false) &&
                 is_int($config['config']['length'])
             ) {
                 $length = $config['config']['length'];
@@ -75,7 +75,7 @@ trait AccessorTesterTrait
             }
 
             if (
-                $config['config']['array_length'] ?? false &&
+                ($config['config']['array_length'] ?? false) &&
                 is_int($config['config']['array_length'])
             ) {
                 $array_length = $config['config']['array_length'];
@@ -103,6 +103,176 @@ trait AccessorTesterTrait
         foreach ($booleans as $property => $config) {
             $test_boolean = $this->generator->randomBoolean();
             $this->accessorTests($property, $config, $object, $test_boolean);
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $floats
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestFloats(array $floats, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($floats as $property => $config) {
+            try {
+                if (
+                    ($config['config']['min'] ?? false) &&
+                    (is_float($config['config']['min']) || is_int($config['config']['min']))
+                ) {
+                    $min = $config['config']['min'];
+                } else {
+                    $min = null;
+                }
+
+                if (
+                    ($config['config']['max'] ?? false) &&
+                    (is_float($config['config']['max']) || is_int($config['config']['max']))
+                ) {
+                    $max = $config['config']['max'];
+                } else {
+                    $max = null;
+                }
+
+                $test_float = $this->generator->randomFloat($min, $max);
+                $this->accessorTests($property, $config, $object, $test_float);
+            } catch (GeneratorException $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $integers
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestIntegers(array $integers, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($integers as $property => $config) {
+            try {
+                if (
+                    ($config['config']['min'] ?? false) &&
+                    is_int($config['config']['min'])
+                ) {
+                    $min = $config['config']['min'];
+                } else {
+                    $min = null;
+                }
+
+                if (
+                    ($config['config']['max'] ?? false) &&
+                    is_int($config['config']['max'])
+                ) {
+                    $max = $config['config']['max'];
+                } else {
+                    $max = null;
+                }
+
+                $test_int = $this->generator->randomInteger($min, $max);
+                $this->accessorTests($property, $config, $object, $test_int);
+            } catch (GeneratorException $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $strings
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestStrings(array $strings, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($strings as $property => $config) {
+            try {
+                if (
+                    ($config['config']['length'] ?? false) &&
+                    is_int($config['config']['length'])
+                ) {
+                    if ($config['config']['length'] < 0) {
+                        throw new TestingToolsException("The length specified cannot be less than 0");
+                    }
+
+                    $length = $config['config']['length'];
+                } else {
+                    $length = null;
+                }
+
+                $test_float = $this->generator->randomString($length);
+                $this->accessorTests($property, $config, $object, $test_float);
+            } catch (Exception $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
+        }
+    }
+
+    // Special cases of the above:
+
+    /**
+     * Tests an array of accessors
+     *
+     * @param array $floats
+     * @param object $object
+     * @return void
+     * @throws TestingToolsException
+     */
+    public function accessorTestCurrencies(array $currencies, object $object): void
+    {
+        $this->generator = new Generator();
+
+        foreach ($currencies as $property => $config) {
+            try {
+                if (
+                    ($config['config']['min'] ?? false) &&
+                    (is_float($config['config']['min']) || is_int($config['config']['min']))
+                ) {
+                    $min = $config['config']['min'];
+                } else {
+                    $min = null;
+                }
+
+                if (
+                    ($config['config']['max'] ?? false) &&
+                    (is_float($config['config']['max']) || is_int($config['config']['max']))
+                ) {
+                    $max = $config['config']['max'];
+                } else {
+                    $max = null;
+                }
+
+                if (
+                    ($config['config']['decimal_places'] ?? false) &&
+                    is_int($config['config']['decimal_places'])
+                ) {
+                    if ($config['config']['decimal_places'] < 0) {
+                        throw new TestingToolsException("The length specified cannot be less than 0");
+                    }
+
+                    $decimal_places = $config['config']['decimal_places'];
+                } else {
+                    $decimal_places = null;
+                }
+
+                $test_float = $this->generator->randomCurrency($min, $max, $decimal_places);
+                $this->accessorTests($property, $config, $object, $test_float);
+            } catch (GeneratorException $e) {
+                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
+            }
         }
     }
 
@@ -145,86 +315,6 @@ trait AccessorTesterTrait
     /**
      * Tests an array of accessors
      *
-     * @param array $floats
-     * @param object $object
-     * @return void
-     * @throws TestingToolsException
-     */
-    public function accessorTestFloats(array $floats, object $object): void
-    {
-        $this->generator = new Generator();
-
-        foreach ($floats as $property => $config) {
-            try {
-                if (
-                    $config['config']['min'] ?? false &&
-                    is_float($config['config']['min'])
-                ) {
-                    $min = $config['config']['min'];
-                } else {
-                    $min = null;
-                }
-
-                if (
-                    $config['config']['max'] ?? false &&
-                    is_float($config['config']['max'])
-                ) {
-                    $max = $config['config']['max'];
-                } else {
-                    $max = null;
-                }
-
-                $test_float = $this->generator->randomFloat($min, $max);
-                $this->accessorTests($property, $config, $object, $test_float);
-            } catch (GeneratorException $e) {
-                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
-            }
-        }
-    }
-
-    /**
-     * Tests an array of accessors
-     *
-     * @param array $integers
-     * @param object $object
-     * @return void
-     * @throws TestingToolsException
-     */
-    public function accessorTestIntegers(array $integers, object $object): void
-    {
-        $this->generator = new Generator();
-
-        foreach ($integers as $property => $config) {
-            try {
-                if (
-                    $config['config']['min'] ?? false &&
-                    is_int($config['config']['min'])
-                ) {
-                    $min = $config['config']['min'];
-                } else {
-                    $min = null;
-                }
-
-                if (
-                    $config['config']['max'] ?? false &&
-                    is_int($config['config']['max'])
-                ) {
-                    $max = $config['config']['max'];
-                } else {
-                    $max = null;
-                }
-
-                $test_int = $this->generator->randomInteger($min, $max);
-                $this->accessorTests($property, $config, $object, $test_int);
-            } catch (GeneratorException $e) {
-                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
-            }
-        }
-    }
-
-    /**
-     * Tests an array of accessors
-     *
      * @param array $jsons
      * @param object $object
      * @return void
@@ -240,7 +330,7 @@ trait AccessorTesterTrait
                     $config['config']['number_of_arrays'] ?? false &&
                     is_int($config['config']['number_of_arrays'])
                 ) {
-                    if($config['config']['number_of_arrays'] < 0) {
+                    if ($config['config']['number_of_arrays'] < 0) {
                         throw new TestingToolsException("The number of arrays specified cannot be less than 0");
                     }
 
@@ -253,7 +343,7 @@ trait AccessorTesterTrait
                     $config['config']['number_of_booleans'] ?? false &&
                     is_int($config['config']['number_of_booleans'])
                 ) {
-                    if($config['config']['number_of_booleans'] < 0) {
+                    if ($config['config']['number_of_booleans'] < 0) {
                         throw new TestingToolsException("The number of booleans specified cannot be less than 0");
                     }
 
@@ -266,7 +356,7 @@ trait AccessorTesterTrait
                     $config['config']['number_of_floats'] ?? false &&
                     is_int($config['config']['number_of_floats'])
                 ) {
-                    if($config['config']['number_of_floats'] < 0) {
+                    if ($config['config']['number_of_floats'] < 0) {
                         throw new TestingToolsException("The number of floats specified cannot be less than 0");
                     }
 
@@ -279,7 +369,7 @@ trait AccessorTesterTrait
                     $config['config']['number_of_integers'] ?? false &&
                     is_int($config['config']['number_of_integers'])
                 ) {
-                    if($config['config']['number_of_integers'] < 0) {
+                    if ($config['config']['number_of_integers'] < 0) {
                         throw new TestingToolsException("The number of integers specified cannot be less than 0");
                     }
 
@@ -292,7 +382,7 @@ trait AccessorTesterTrait
                     $config['config']['number_of_strings'] ?? false &&
                     is_int($config['config']['number_of_strings'])
                 ) {
-                    if($config['config']['number_of_strings'] < 0) {
+                    if ($config['config']['number_of_strings'] < 0) {
                         throw new TestingToolsException("The number of strings specified cannot be less than 0");
                     }
 
@@ -312,41 +402,6 @@ trait AccessorTesterTrait
                 $this->accessorTests($property, $config, $object, $test_json);
             } catch (Exception $e) {
                 throw new TestingToolsException($e->getMessage());
-            }
-        }
-    }
-
-    /**
-     * Tests an array of accessors
-     *
-     * @param array $strings
-     * @param object $object
-     * @return void
-     * @throws TestingToolsException
-     */
-    public function accessorTestStrings(array $strings, object $object): void
-    {
-        $this->generator = new Generator();
-
-        foreach ($strings as $property => $config) {
-            try {
-                if (
-                    $config['config']['length'] ?? false &&
-                    is_int($config['config']['length'])
-                ) {
-                    if($config['config']['length'] < 0) {
-                        throw new TestingToolsException("The length specified cannot be less than 0");
-                    }
-
-                    $length = $config['config']['length'];
-                } else {
-                    $length = null;
-                }
-
-                $test_float = $this->generator->randomString($length);
-                $this->accessorTests($property, $config, $object, $test_float);
-            } catch (Exception $e) {
-                throw new TestingToolsException('The Generator encountered an exception: ' . $e->getMessage());
             }
         }
     }
@@ -402,7 +457,8 @@ trait AccessorTesterTrait
     {
         $string = str_replace(
         // remove spaces
-            ' ', '',
+            ' ',
+            '',
             ucwords(
             // convert into a "string with spaces"
                 str_replace('_', ' ', $name)

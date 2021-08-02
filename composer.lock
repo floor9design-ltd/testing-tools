@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5461a4b4f63948fe7934ce8af781f828",
+    "content-hash": "9df030b72eb4565ebfc724603d731dc1",
     "packages": [
         {
             "name": "floor9design/test-data-generator",
@@ -189,12 +189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea"
+                "reference": "ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/d1339f64479af1bee0e82a0413813fe5345a54ea",
-                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3",
+                "reference": "ef4ba5b7cd76d582ef82bdecb0be5429f943dbc3",
                 "shasum": ""
             },
             "require": {
@@ -252,9 +252,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/1.4.3"
+                "source": "https://github.com/mockery/mockery/tree/master"
             },
-            "time": "2021-02-24T09:51:49+00:00"
+            "time": "2021-07-19T08:40:21+00:00"
         },
         {
             "name": "myclabs/deep-copy",

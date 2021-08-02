@@ -13,7 +13,6 @@ before_script:
   - travis_retry composer install --no-interaction
 
 script:
-  - ./vendor/phpunit/phpunit/phpunit --coverage-html docs/tests/
   - ./vendor/phpunit/phpunit/phpunit --coverage-clover coverage.xml
 
 after_success:

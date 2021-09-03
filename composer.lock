@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9df030b72eb4565ebfc724603d731dc1",
+    "content-hash": "1537b2cdaad52e3e6e72564711086757",
     "packages": [
         {
             "name": "floor9design/test-data-generator",
@@ -1981,6 +1981,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {

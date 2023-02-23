@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "floor9design/test-data-generator",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/floor9design-ltd/test-data-generator.git",
-                "reference": "e2785cb131207624cb5ce126b8b523007eca85b5"
+                "reference": "6d589d553e0572d65e3d517890cf9a48abf981f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/floor9design-ltd/test-data-generator/zipball/e2785cb131207624cb5ce126b8b523007eca85b5",
-                "reference": "e2785cb131207624cb5ce126b8b523007eca85b5",
+                "url": "https://api.github.com/repos/floor9design-ltd/test-data-generator/zipball/6d589d553e0572d65e3d517890cf9a48abf981f3",
+                "reference": "6d589d553e0572d65e3d517890cf9a48abf981f3",
                 "shasum": ""
             },
             "require": {
@@ -26,8 +26,8 @@
             },
             "require-dev": {
                 "mockery/mockery": "dev-master",
-                "phpstan/phpstan": "^0.12 || ^1.0",
-                "phpunit/phpunit": "^9"
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^10||^9"
             },
             "type": "library",
             "autoload": {
@@ -58,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/floor9design-ltd/test-data-generator/issues",
-                "source": "https://github.com/floor9design-ltd/test-data-generator/tree/1.4.0"
+                "source": "https://github.com/floor9design-ltd/test-data-generator/tree/1.5.0"
             },
-            "time": "2022-03-22T20:02:51+00:00"
+            "time": "2023-02-22T20:35:17+00:00"
         }
     ],
     "packages-dev": [

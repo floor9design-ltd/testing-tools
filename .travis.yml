@@ -3,33 +3,50 @@
 # Setup for travis-cl.com
 #
 # @category  None
-# @package   /
+# @package   \
 # @author    Rick Morice <rick@floor9design.com>
-# @copyright Floor9design Ltd (floor9design.com)
+# @copyright Floor9design Ltd
 # @license   MIT
-# @version   1.4
+# @version   1.5.0
+# @link      https://github.com/floor9design-ltd/testing-tools
 # @link      https://floor9design.com
-# @see       https://floor9design.com
-# @since     File available since Release 1.0
+# @since     File available since pre-release development cycle
+os: linux
 language: php
-dist: jammy
-php:
-  - '8.1'
+jobs:
+  include:
+    - dist: jammy
+      php:
+        - '8.2.0'
 
-env:
-  - XDEBUG_MODE=coverage
+      addons:
+        apt:
+          update: true
+          packages:
+            - libonig-dev
 
-before_script:
-  - travis_retry composer self-update
-  - travis_retry composer install --no-interaction
+      before_script:
+        - travis_retry composer self-update
+        - travis_retry composer install --no-interaction
 
-script:
-  - ./vendor/phpunit/phpunit/phpunit --coverage-clover coverage.xml
+      script:
+        - XDEBUG_MODE=coverage ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-clover=coverage.clover
+        - ./vendor/bin/phpstan
 
-after_success:
-  #- curl -Os https://uploader.codecov.io/latest/linux/codecov
-  #- chmod +x codecov
-  #- ./codecov
-  - bash <(curl -s https://codecov.io/bash)
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
 
+    - dist: jammy
+      php:
+        - '8.1'
 
+      before_script:
+        - travis_retry composer self-update
+        - travis_retry composer install --no-interaction
+
+      script:
+        - XDEBUG_MODE=coverage ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-clover=coverage.clover
+        - ./vendor/bin/phpstan
+
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)

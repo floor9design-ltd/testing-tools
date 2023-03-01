@@ -265,7 +265,7 @@ use Floor9design\TestingTools\Traits\AccessorTesterTrait;
 $object = new stdClass();
 
 // set up the config array for strings
-$integers = [
+$strings = [
     // the property
     'foo' => [
         // name of the getter
@@ -280,7 +280,7 @@ $integers = [
     ]
 ];
 
-$this->accessorTestStrings($integers, $object);
+$this->accessorTestStrings($strings, $object);
 
 ```
 

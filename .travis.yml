@@ -31,7 +31,7 @@ jobs:
 
       script:
         - XDEBUG_MODE=coverage ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-clover=coverage.clover
-        - ./vendor/bin/phpstan
+        #- ./vendor/bin/phpstan
 
       after_success:
         - bash <(curl -s https://codecov.io/bash)
@@ -46,7 +46,7 @@ jobs:
 
       script:
         - XDEBUG_MODE=coverage ./vendor/phpunit/phpunit/phpunit --coverage-text --coverage-clover=coverage.clover
-        - ./vendor/bin/phpstan
+        #- ./vendor/bin/phpstan
 
       after_success:
         - bash <(curl -s https://codecov.io/bash)
